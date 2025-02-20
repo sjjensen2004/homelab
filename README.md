@@ -5,7 +5,7 @@ This repo will track the equipment, architecture, setup, performance tuning, and
 **Business Requirements:**
 
 - Leverage existing equipment where possible and keep cost balanced when procuring new hardware.
-- Outside of hardware failures, it must support the lab enviroment for the next ~10 years.
+- Outside of hardware failures, it must support the lab environment for the next ~10 years.
 - Replace subscription services (e.g., iCloud, OneDrive, Zoom, etc.).
 - Must provide a flexible environment capable of hosting POCs for Networking, Software, and Systems.
 - Must not leverage any subscription services to maintain. 
@@ -64,7 +64,7 @@ I've procured all hardware below with the exception of the Fortigate 90G for whi
 | **FortiSwitch 108E** | Ethernet Switch | 1 | - | $0.00 | - |
 | **Maxonar [2 Pack 3.3FT] Thunderbolt 4 Cable** | Cabling | 2 | $22.99 | $45.98 | [Amazon](#) |
 
-Less the Fortigate 61F and Fortiswitch 108E, the total cost sunk is $6274.66. Depending on your enviroment requirements you can certainly exchange any of the above for a far lower entry point. 
+Less the Fortigate 61F and Fortiswitch 108E, the total cost sunk is $6274.66. Depending on your environment requirements you can certainly exchange any of the above for a far lower entry point. 
 
 ## Storage
 
@@ -87,4 +87,14 @@ A couple things of note:
 
 ## Networking
 
+| VLAN  | Purpose                     |
+|-------|-----------------------------|
+| **VLAN 10** | Management (Proxmox UI) |
+| **VLAN 11** | Management (Corosync), CEPH Contorl Plane   |
+| **VLAN 20** | Ceph Storage            |
+| **VLAN 30** | Backups                  |
+| **VLAN 40-400** | VMs and Services     |
+
 ![Network Diagram](images/network01.png)
+
+The network is designed to offer a balance between cost and performance. To help achieve this, I leveraged the MS-01s USB4 / Thunderbolt ports to host the CEPH dataplane. This will provide CEPH with a 40Gbps dedicated network. You'll also notice that the 10G SFP+ ports on the MS-01s are not deployed with LACP; This was purposeful because the low end hardware only supports SRC/DST hashing and I wanted to avoid Hash Polarization. VLAN 30 (e.g., backups) has its own dedicated 10G link per node to isolate the activity from active VMs/services (i.e., large backups will not impact service performance). In addition, Corosync require low latency tolerance (<2ms is ideal, 2-5ms acceptable) and as such will receive a dedicated port on each node. 
