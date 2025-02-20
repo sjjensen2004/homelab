@@ -1,5 +1,9 @@
 # Home lab architecture and setup. 
 
+<div style="border-left: 4px solid #f39c12; padding: 10px; background-color:rgb(246, 244, 236); color:rgb(1, 1, 1)">
+  <strong>⚠ Note:</strong> This is a work in progress; the project was started on 2-20-2025.
+</div>
+
 This repo will track the equipment, architecture, setup, performance tuning, and performance metrics of my homelab/DC. It will satisfy the use cases below. Because this is a home lab, I call this labbing on a budget. While it can certainly be stood up with less expense my goal is to balance cost/performance.  
 
 **Business Requirements:**
@@ -85,7 +89,12 @@ A couple things of note:
     - If performance is still terrible, I will consider moving Ceph WAL/DB to a separate enterprise NVMe with PLP. 
     - I plan to put workloads with high I/O (e.g., Influx, PostGres) on either SSD1 (LVM-Thin) or potentially move SSD 3 to ZFS. 
 
+
 ## Networking
+
+![Network Diagram](images/network01.png)
+
+<div align="center">
 
 | VLAN  | Purpose                     |
 |-------|-----------------------------|
@@ -95,6 +104,6 @@ A couple things of note:
 | **VLAN 30** | Backups                  |
 | **VLAN 40-400** | VMs and Services     |
 
-![Network Diagram](images/network01.png)
+</div>
 
-The network is designed to offer a balance between cost and performance. To help achieve this, I leveraged the MS-01s USB4 / Thunderbolt ports to host the CEPH dataplane. This will provide CEPH with a 40Gbps dedicated network. You'll also notice that the 10G SFP+ ports on the MS-01s are not deployed with LACP; This was purposeful because the low end hardware only supports SRC/DST hashing and I wanted to avoid Hash Polarization. VLAN 30 (e.g., backups) has its own dedicated 10G link per node to isolate the activity from active VMs/services (i.e., large backups will not impact service performance). In addition, Corosync require low latency tolerance (<2ms is ideal, 2-5ms acceptable) and as such will receive a dedicated port on each node. 
+The network is designed to offer a balance between cost and performance. To help achieve this, I leveraged the MS-01s USB4 / Thunderbolt ports to host the CEPH dataplane. This will provide CEPH with a 40Gbps (Real world throughput will vary but should still exceed 20Gbps) dedicated network. You'll also notice that the 10G SFP+ ports on the MS-01s are not deployed with LACP; This was purposeful because the low end hardware only supports SRC/DST hashing and I wanted to avoid Hash Polarization. VLAN 30 (e.g., backups) has its own dedicated 10G link per node to isolate the activity from active VMs/services (i.e., large backups will not complete with VM service for network performance). In addition, Corosync require low latency tolerance (<2ms is ideal, 2-5ms acceptable) and as such will receive a dedicated port on each node. 
