@@ -4,7 +4,9 @@
   <strong>⚠ Note:</strong> This is a work in progress; the project was started on 2-20-2025.
 </div>
 
+<div>
 This repo will track the equipment, architecture, setup, performance tuning, and performance metrics of my homelab/DC. It will satisfy the use cases below. Because this is a home lab, I call this labbing on a budget. While it can certainly be stood up with less expense my goal is to balance cost/performance.  
+</div>
 
 **Business Requirements:**
 
