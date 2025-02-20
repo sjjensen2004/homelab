@@ -3,7 +3,8 @@
 <div style="border-left: 4px solid #f39c12; padding: 10px; background-color:rgb(246, 244, 236); color:rgb(1, 1, 1)">
   <strong>⚠ Note:</strong> This is a work in progress; the project was started on 2-20-2025.
 </div>
----
+<br>
+<br>
 This repo will track the equipment, architecture, setup, performance tuning, and performance metrics of my homelab/DC. It will satisfy the use cases below. Because this is a home lab, I call this labbing on a budget. While it can certainly be stood up with less expense my goal is to balance cost/performance.  
 <br>
 **Business Requirements:**
