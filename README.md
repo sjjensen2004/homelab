@@ -7,6 +7,7 @@
 <br>
 This repo will track the equipment, architecture, setup, performance tuning, and performance metrics of my homelab/DC. It will satisfy the use cases below. Because this is a home lab, I call this labbing on a budget. While it can certainly be stood up with less expense my goal is to balance cost/performance.  
 <br>
+<br>
 Remember, if you do not host your own data than **you do not own it** and should not expect it to remain private. 
 <br>
 <br>
